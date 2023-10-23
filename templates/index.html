@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Questions Interface</title>
+</head>
+<body>
+    <h1>Ask Your Tax-Related Questions</h1>
+    <textarea id="question" rows="4" cols="50"></textarea><br><br>
+    <button onclick="submitQuestion()">Ask</button><br><br>
+    <h2>Response:</h2>
+    <pre id="answer"></pre>
+
+    <script>
+        async function submitQuestion() {
+            let questionText = document.getElementById('question').value;
+            let response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question: questionText })
+            });
+            let data = await response.json();
+            document.getElementById('answer').innerText = data.answer;
+        }
+    </script>
+</body>
+</html>
